@@ -5,7 +5,13 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     </head>
 
+    <?php
+    //include("/includes/nav.php");
+    ?>
+    
+
     <body>
+        <h1 class="title is-one"> Planet Express </h1>
         <div class="box">
             <form method="POST">
                 <p class="control has-icon">
