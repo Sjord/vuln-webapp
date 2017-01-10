@@ -4,9 +4,6 @@
             <div class="nav-item">
                 <img src="assets/images/logo.png" alt="Planet Express Logo">
             </div>
-            <div class="nav-item">
-                <p class="title is-4" alt="Our crew is replaceable. Your package isn't.">Planet Express</p>
-            </div>
         </div>
 
         <div class="nav-center">
