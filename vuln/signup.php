@@ -40,6 +40,11 @@
                     </p>
                 </div>
             </div>
+
+            <p class="control">
+                <input class="input" type="hidden" placeholder="username">
+            </p>
+
             <p class = "control">
                 <button class="button is-success" type="submit">
                     Submit
