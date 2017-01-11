@@ -1,3 +1,13 @@
+<?php
+    session_start();
+    // If the user is already logged in then redirect them to the home page because there's no need to sign up again
+    if (isset($_SESSION['username']))
+    {
+        header("Location: index.php");
+    }
+
+    // TODO: Add  exit(); here so that the page doesn't continue to load if the session is initialised
+?>
 <!doctype html>
 <html>
     <head>
@@ -21,12 +31,15 @@
             echo "Failed to connect to MySQL: (" . $mysqli->db. ") " . $mysqli->db;
         }
         else {
-            $query = $db->prepare("INSERT INTO `user` (email,password,privilege_level) VALUES (?,?,1)");
-            $query->bind_param("ss", $email, $passwd);
+            // $query = $db->prepare("INSERT INTO `user` (email,password,privilege_level) VALUES (?,?,1)");
+            // $query->bind_param("ss", $email, $passwd);
 
-            $query->execute();
+            // $query->execute();
 
-            $query->close();
+            // $query->close();
+
+            // Why prepare statements when you can cripple horrendously?
+            $db->query("INSERT INTO `user` (email, password, privilege_level) VALUES('$email', '$passwd', 1)");
         }
 
     }
