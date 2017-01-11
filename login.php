@@ -24,7 +24,8 @@
         $myusername = $_POST["username"];
         $mypassword = $_POST["password"];
 
-        $sql = "SELECT id FROM admin WHERE username = $myusername AND password = $mypassword";
+        // Super super securely check the username and password even when there's spaces!!!!
+        $sql = "SELECT id FROM admin WHERE username = '$myusername' AND password = '$mypassword'";
         $result = $db->query($sql);
         $row = $db->fetch_array(MYSQLI_ASSOC);
         $active = $row["active"];
