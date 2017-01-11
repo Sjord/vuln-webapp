@@ -21,6 +21,8 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
     id int UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
     email varchar(256) NOT NULL,
+    firstname varchar(256) NOT NULL,
+    lastname varchar(256) NOT NULL,
     password varchar(8) NOT NULL,
     privilege_level int UNSIGNED NOT NULL DEFAULT 1
 );
