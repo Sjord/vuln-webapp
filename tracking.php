@@ -10,17 +10,17 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.3.0/css/bulma.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     </head>
-
+    <body>
 <?php
-    include("/includes/nav.php");
+    include("includes/nav.php");
     include("config.php");
 
-    if($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])
+    if($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !isset($_GET["not_found"]))
     {
         $tracking_id = $_GET["id"];
         
         $result = $db->query("SELECT * FROM shipment WHERE id = '$tracking_id'");
-        $row = $db->fetch_array(MYSQLI_ASSOC);
+        $row = $result->fetch_array(MYSQLI_ASSOC);
         $active = $row["active"];
 
 
@@ -34,13 +34,12 @@
         else 
         {
             $shipment_found = false;
-            header("Location: tracking.php?not_found");
+            header("Location: tracking.php?id=$tracking_id&not_found");
         }
     }
-    else 
+    elseif($_SERVER["REQUEST_METHOD"] == "GET" && !isset($_GET["id"]) && !isset($_GET["invalid"])) 
     {
-        $shipment_found = false;
-        header("Location: tracking.php?invalid");
+            header("Location: tracking.php?invalid");
     }
 ?>
 
@@ -62,11 +61,11 @@
         </div>
 <?php 
         }
-        elseif(isset($_GET["not_found"])
+        elseif(isset($_GET["not_found"]))
         {
 ?>
-        <div class="notification is-danger">
-        
+        <div class="notification is-danger has-text-centered">
+            Shipment with ID <?php echo $tracking_id ?> not found!       
         </div>
 <?php 
         }
