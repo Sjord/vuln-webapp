@@ -1,3 +1,13 @@
+<?php
+    session_start();
+    // If the user is already logged in then redirect them to the home page because there's no need to sign up again
+    if (isset($_SESSION['username']))
+    {
+        header("Location: index.php");
+    }
+
+    // TODO: Add  exit(); here so that the page doesn't continue to load if the session is initialised
+?>
 <!doctype html>
 <html>
     <head>
