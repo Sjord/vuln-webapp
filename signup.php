@@ -32,7 +32,7 @@
 
             // Why prepare statements when you can cripple horrendously?
             $db->query("INSERT INTO `user` (email, password, privilege_level) VALUES('$email', '$passwd', 1)");
-            header("login.php?created");
+            header("Location: login.php?created");
         }
     }
 ?>
