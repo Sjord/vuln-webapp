@@ -29,12 +29,19 @@
         $result = $db->query($sql);
         
         // Check that there's actually a result
-        if ($result->num_rows > 0)
+        if ($result)
         {
-            $row = $result->fetch_array(MYSQLI_ASSOC);
-            $_SESSION['active'] = $row["active"];
-            $_SESSION["username"] = $row["username"];
-            header("Location: index.php");
+            if ($result->num_rows > 0)
+            {
+                $row = $result->fetch_array(MYSQLI_ASSOC);
+                $_SESSION['active'] = $row["active"];
+                $_SESSION["username"] = $row["username"];
+                header("Location: index.php");
+            }
+            else
+            {
+                header("Location: login.php?invalid");
+            }
         }
         else
         {
