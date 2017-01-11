@@ -26,7 +26,7 @@
             </a>
 
             <span class="nav-item">
-                <a class="button" href="register.php">
+                <a class="button" href="signup.php">
                     <span class="icon">
                         <i class="fa fa-user-plus"></i>
                     </span>
