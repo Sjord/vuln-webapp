@@ -19,7 +19,7 @@
     //include("/includes/nav.php");
     //include the configuration file with database access
     //also add connection from php to the sql database(which will probs be in the config file)
-    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['username'] && isset($_POST['password'])))
+    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['username']) && isset($_POST['password']))
     {
         $myusername = $_POST["username"];
         $mypassword = $_POST["password"];
@@ -47,7 +47,7 @@
         <h1 class="title is-one"> Planet Express </h1>
         <div class="box">
             <?php
-                if isset($_GET['invalid'])
+                if ( isset($_GET['invalid'] ))
                 {
                      echo "The username or password you entered is invalid.";
                 }
