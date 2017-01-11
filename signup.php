@@ -7,25 +7,28 @@
 
     <?php
     //include("/includes/nav.php");
-    //include("config.php");
+    include("config.php");
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
         $firstName = $_POST["firstName"];
         $lastName = $_POST["lastName"];
         $email = $_POST["email"];
-        $pwrod = $_POST["password"];
+        $passwd = $_POST["password"];
 
         //define $query depending on tables and databases matt adds
+        $db = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+        if ($db->connect_errno) {
+            echo "Failed to connect to MySQL: (" . $mysqli->db. ") " . $mysqli->db;
+        }
+        else {
+            $query = $db->prepare("INSERT INTO `user` (email,password,privilege_level) VALUES (?,?,1)");
+            $query->bind_param("ss", $email, $passwd);
 
-        if(mysqli_query($db, $query))
-        {
-            echo "Records added successfully";
+            $query->execute();
+
+            $query->close();
         }
 
-        else
-        {
-            echo "ERROR: Could not be able to execute $sql" . mysqli_error($db);
-        }
     }
     ?>
 
@@ -39,7 +42,7 @@
                         <input class="input" type="text" name="firstName" placeholder="First Name">
                     </p>
                     <p class="control is-expanded">
-                        <input class="input" type="text" placeholder="Last Name">
+                        <input class="input" type="text" name="lastName" placeholder="Last Name">
                     </p>
                 </div>
             </div>
