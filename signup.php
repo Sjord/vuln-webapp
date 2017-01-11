@@ -43,10 +43,6 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     </head>
 
-    <?php
-    
-    ?>
-
     <body>
         <?php require("includes/nav.php"); ?>
         <h1 class="title is-one"> Planet Express </h1>
