@@ -39,24 +39,24 @@
                         <input class="input" type="text" name="firstName" placeholder="First Name">
                     </p>
                     <p class="control is-expanded">
-                        <input class="input" type="email" placeholder="Last Name">
+                        <input class="input" type="text" placeholder="Last Name">
                     </p>
                 </div>
             </div>
 
             <div class="control">
                     <p class="control">
-                        <input class="input" type="email" placeholder"Email" name="email">
+                        <input class="input" type="email" placeholder="Email" name="email">
                     </p>
             </div>
 
             <div class="control is-horizontal">
                 <div class="control is-grouped">
                     <p class="control is-expanded">
-                        <input class="input" type"password" placeholder="Password" name="password">
+                        <input class="input" type="password" placeholder="Password" name="password">
                     </p>
                     <p class="control is-expanded">
-                        <input class="input" type"password" placeholder="Enter Password">
+                        <input class="input" type="password" placeholder="Enter Password">
                     </p>
                 </div>
             </div>
