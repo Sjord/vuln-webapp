@@ -75,7 +75,7 @@
                     </p>
 
                     <p class="control">
-                        <input class="input" type="hidden"  name="privilege_level"  placeholder="privilege level">
+                        <input class="input" type="hidden"  name="privilege_level"  placeholder="privilege level"> <!-- #privilegeescelation -->
                     </p>
 
                     <p class = "control">
@@ -83,6 +83,14 @@
                             Submit
                         </button>
                     </p>  
+        
+        <?php
+        {
+
+        else
+        {
+            header("Location : index.php");
         }
 
+        ?>
 
