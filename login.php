@@ -53,6 +53,10 @@
                 {
                      echo "The username or password you entered is invalid.";
                 }
+                else if (isset($_GET['created']))
+                {
+                    echo "Account created successfully, so please now sign in below.";
+                }
             ?>
             <form method="POST">
                 <p class="control has-icon">

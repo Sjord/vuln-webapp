@@ -21,8 +21,8 @@
         </div>
 
         <div class="nav-right nav-menu">
-            <a class="nav-item">
-                Home 
+            <a class="nav-item" href="index.php">
+                Home
             </a>
 
             <span class="nav-item">
