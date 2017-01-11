@@ -68,7 +68,7 @@
                 <p class="control has-icon">
                     <input class="input is-danger" name="password" type="password" placeholder="Password">
                     <span class="icon is-small">
-                        <i class="fa fa-lock">
+                        <i class="fa fa-lock"></i>
                     </span>
                 </p>
                 <p class="control">
