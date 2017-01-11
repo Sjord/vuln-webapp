@@ -19,7 +19,7 @@ DROP TABLE IF EXISTS `user`;
 -- 2: Admin access
 
 CREATE TABLE `user` (
-    id int UNSIGNED NOT NULL AUTO_INCREMENT,
+    id int UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
     email varchar(256) NOT NULL,
     password varchar(8) NOT NULL,
     privilege_level int UNSIGNED NOT NULL DEFAULT 1
@@ -27,7 +27,7 @@ CREATE TABLE `user` (
 
 DROP TABLE IF EXISTS `shipment`;
 CREATE TABLE `shipment` (
-    id int UNSIGNED NOT NULL AUTO_INCREMENT,
+    id int UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
     name varchar(256) NOT NULL,
     cost decimal(13,4) NOT NULL,
     destination varchar(256) NOT NULL,
@@ -41,12 +41,12 @@ CREATE TABLE `shipment` (
 
 DROP TABLE IF EXISTS `package`;
 CREATE TABLE `package` (
-    id int UNSIGNED NOT NULL AUTO_INCREMENT,
+    id int UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
     description varchar(256) NOT NULL,
     cost decimal(13,4) NOT NULL,
-    width int UNSIGNED NOT NULL AUTO_INCREMENT,
-    height int UNSIGNED NOT NULL AUTO_INCREMENT,
-    depth int UNSIGNED NOT NULL AUTO_INCREMENT,
+    width int UNSIGNED NOT NULL,
+    height int UNSIGNED NOT NULL,
+    depth int UNSIGNED NOT NULL,
     shipment_id int UNSIGNED NOT NULL,
 
     FOREIGN KEY (shipment_id) REFERENCES `shipment`(id)
@@ -54,6 +54,10 @@ CREATE TABLE `package` (
 
 DROP TABLE IF EXISTS `update`;
 CREATE TABLE `update` (
-    id int UNSIGNED NOT NULL AUTO_INCREMENT,
+    id int UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    content varchar(256) NOT NULL,
+    date_received DATETIME NOT NULL,
+    shipment_id int UNSIGNED NOT NULL,
 
-)
+    FOREIGN KEY (shipment_id) REFERENCES `shipment`(id)
+);
