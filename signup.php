@@ -10,8 +10,8 @@
     require("config.php");
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
-        $firstName = $_POST["firstName"];
-        $lastName = $_POST["lastName"];
+        $firstName = $_POST["firstname"];
+        $lastName = $_POST["lastname"];
         $email = $_POST["email"];
         $passwd = $_POST["password"];
 
