@@ -1,21 +1,21 @@
 <?php
     require("config.php");
     session_start();
-    if (isset($_SESSION['username']))
+    if (isset($_SESSION['email']))
     {
         header("Location: index.php");
     }
 
     $db = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
-    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['username']) && isset($_POST['password']))
+    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['email']) && isset($_POST['password']))
     {
-        $myusername = $_POST["username"];
-        $mypassword = $_POST["password"];
+        $myemail = $_POST["email"];
+        $mypassword = $_POST["email"];
 
-        // Super super securely check the username and password even when there's spaces!!!!
-        $sql = "SELECT * FROM user WHERE username = '$myusername' AND password = '$mypassword'";
+        // Super super securely check the email and password even when there's spaces!!!!
+        $sql = "SELECT * FROM user WHERE email = '$myemail' AND password = '$mypassword'";
         $result = $db->query($sql);
-        
+
         // Check that there's actually a result
         if ($result)
         {
@@ -23,7 +23,7 @@
             {
                 $row = $result->fetch_array(MYSQLI_ASSOC);
                 $_SESSION['active'] = $row["active"];
-                $_SESSION["username"] = $row["username"];
+                $_SESSION["email"] = $row["email"];
                 header("Location: index.php");
             }
             else
@@ -51,7 +51,7 @@
             <?php
                 if ( isset($_GET['invalid'] ))
                 {
-                     echo "The username or password you entered is invalid.";
+                     echo "The email or password you entered is invalid.";
                 }
                 else if (isset($_GET['created']))
                 {
@@ -60,7 +60,7 @@
             ?>
             <form method="POST">
                 <p class="control has-icon">
-                    <input class="input is-primary" name="username" type="text" placeholder="Username">
+                    <input class="input is-primary" name="email" type="text" placeholder="Email address">
                     <span class="icon is-small">
                         <i class="fa fa-envelope"></i>
                     </span>
@@ -75,22 +75,19 @@
                     <button class="button is-success" type="submit">
                         Login
                     </button>
-                </p> 
+                </p>
                 <br>
                 <br>
                 <p class = "control">
                     <button class="button is-success">
-                        Forgot Username
+                        Forgot Email
                     </button>
-                </p> 
+                </p>
                 <p class = "control">
                     <button class="button is-success">
                         Forgot Password
                     </button>
-                </p> 
+                </p>
             </form>
         </div>
     </body>
-
-
-
