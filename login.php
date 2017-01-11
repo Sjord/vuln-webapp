@@ -7,18 +7,6 @@
     }
 
     $db = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
-?>
-<!doctype html>
-<html>
-    <head>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.3.0/css/bulma.css" rel="stylesheet" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-    </head>
-
-    <?php
-    //include("/includes/nav.php");
-    //include the configuration file with database access
-    //also add connection from php to the sql database(which will probs be in the config file)
     if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['username']) && isset($_POST['password']))
     {
         $myusername = $_POST["username"];
@@ -48,10 +36,16 @@
             header("Location: login.php?invalid");
         }
     }
-    ?>
-    
+?>
+<!doctype html>
+<html>
+    <head>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.3.0/css/bulma.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    </head>
 
     <body>
+        <?php require("includes/nav.php"); ?>
         <h1 class="title is-one"> Planet Express </h1>
         <div class="box">
             <?php
