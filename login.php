@@ -27,19 +27,19 @@
         // Super super securely check the username and password even when there's spaces!!!!
         $sql = "SELECT id FROM admin WHERE username = '$myusername' AND password = '$mypassword'";
         $result = $db->query($sql);
-        $row = $result->fetch_array(MYSQLI_ASSOC);
-        $active = $row["active"];
-        //if result matched username and password, table row must be 1
         
-        if($result->num_rows > 0)
+        // Check that there's actually a result
+        if ($result->num_rows > 0)
         {
-            $_SESSION["username"] = $myusername;
+            $row = $result->fetch_array(MYSQLI_ASSOC);
+            $_SESSION['active'] = $row["active"];
+            $_SESSION["username"] = $row["username"];
             header("Location: index.php");
         }
         else
         {
             header("Location: login.php?invalid");
-        }  
+        }
     }
     ?>
     
