@@ -7,6 +7,26 @@
 
     <?php
     //include("/includes/nav.php");
+    //include("config.php");
+    if($_SERVER["REQUEST_METHOD"] == "POST")
+    {
+        $firstName = $_POST["firstName"];
+        $lastName = $_POST["lastName"];
+        $email = $_POST["email"];
+        $pwrod = $_POST["password"];
+
+        //define $query depending on tables and databases matt adds
+
+        if(mysqli_query($db, $query))
+        {
+            echo "Records added successfully";
+        }
+
+        else
+        {
+            echo "ERROR: Could not be able to execute $sql" . mysqli_error($db);
+        }
+    }
     ?>
 
     <body>
@@ -16,7 +36,7 @@
             <div class="control is-horizontal">
                 <div class="control is-grouped">
                     <p class="control is-expanded">
-                        <input class="input" type="text" placeholder="First Name">
+                        <input class="input" type="text" name="firstName" placeholder="First Name">
                     </p>
                     <p class="control is-expanded">
                         <input class="input" type="email" placeholder="Last Name">
@@ -26,14 +46,14 @@
 
             <div class="control">
                     <p class="control">
-                        <input class="input" type="email" placeholder"Email">
+                        <input class="input" type="email" placeholder"Email" name="email">
                     </p>
             </div>
 
             <div class="control is-horizontal">
                 <div class="control is-grouped">
                     <p class="control is-expanded">
-                        <input class="input" type"password" placeholder="Password">
+                        <input class="input" type"password" placeholder="Password" name="password">
                     </p>
                     <p class="control is-expanded">
                         <input class="input" type"password" placeholder="Enter Password">

@@ -19,7 +19,7 @@
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
         $active = $row["active"];
         //if result matched username and password, table row must be 1
-
+        
         if($count == 1)
         {
             session_register("myusername");
