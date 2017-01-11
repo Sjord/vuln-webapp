@@ -8,6 +8,7 @@
     <?php
     //include("/includes/nav.php");
     //include the configuration file with database access
+    //also add connection from php to the sql database(which will probs be in the config file)
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
         $myusername = mysql_real_escape_string($db, $_POST["username"]);
