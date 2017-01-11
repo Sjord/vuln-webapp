@@ -25,7 +25,7 @@
         $mypassword = $_POST["password"];
 
         // Super super securely check the username and password even when there's spaces!!!!
-        $sql = "SELECT id FROM admin WHERE username = '$myusername' AND password = '$mypassword'";
+        $sql = "SELECT * FROM user WHERE username = '$myusername' AND password = '$mypassword'";
         $result = $db->query($sql);
         
         // Check that there's actually a result
