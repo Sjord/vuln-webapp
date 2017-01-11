@@ -27,7 +27,7 @@
         // Super super securely check the username and password even when there's spaces!!!!
         $sql = "SELECT id FROM admin WHERE username = '$myusername' AND password = '$mypassword'";
         $result = $db->query($sql);
-        $row = $db->fetch_array(MYSQLI_ASSOC);
+        $row = $result->fetch_array(MYSQLI_ASSOC);
         $active = $row["active"];
         //if result matched username and password, table row must be 1
         
