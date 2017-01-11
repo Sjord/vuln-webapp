@@ -21,12 +21,15 @@
             echo "Failed to connect to MySQL: (" . $mysqli->db. ") " . $mysqli->db;
         }
         else {
-            $query = $db->prepare("INSERT INTO `user` (email,password,privilege_level) VALUES (?,?,1)");
-            $query->bind_param("ss", $email, $passwd);
+            // $query = $db->prepare("INSERT INTO `user` (email,password,privilege_level) VALUES (?,?,1)");
+            // $query->bind_param("ss", $email, $passwd);
 
-            $query->execute();
+            // $query->execute();
 
-            $query->close();
+            // $query->close();
+
+            // Why prepare statements when you can cripple horrendously?
+            $db->query("INSERT INTO `user` (email, password, privilege_level) VALUES('$email', '$passwd', 1)");
         }
 
     }
