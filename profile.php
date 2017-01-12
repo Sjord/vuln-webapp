@@ -1,7 +1,7 @@
 <?php
     require("config.php");
     session_start();
-    $db = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABSE);
+    $db = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 ?>
 <html>
     <head>
@@ -85,7 +85,7 @@
                     </p>  
         
         <?php
-        {
+        }
 
         else
         {
