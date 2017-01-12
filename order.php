@@ -44,7 +44,7 @@
                                             <th>Weight (g)</th>
                                             <th>Cost (£)</th>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="pkglist">
                                         </tbody>
                                     </table>
                                     <div id="nopackageswarning" class="notification">
@@ -53,35 +53,36 @@
 
                                     <div class="columns">
                                         <div class="column is-8">
-                                            <label class="label" for="name">Name</label>
+                                            <label class="label">Name</label>
                                             <p class="control">
-                                                <input class="input" type="text" name="name" />
+                                                <input class="input" type="text" id="pkgname" />
                                             </p>
                                             <label class="label">Width, Height, Depth (cm)</label>
                                             <div class="control is-grouped">
                                                 <p class="control is-expanded">
-                                                    <input class="input" type="text" name="width" placeholder="Width"/>
+                                                    <input class="input" type="text" id="pkgwidth" placeholder="Width"/>
                                                 </p>
                                                 <p class="control is-expanded">
-                                                    <input class="input" type="text" name="height" placeholder="Height"/>
+                                                    <input class="input" type="text" id="pkgheight" placeholder="Height"/>
                                                 </p>
                                                 <p class="control is-expanded">
-                                                    <input class="input" type="text" name="depth" placeholder="Depth"/>
+                                                    <input class="input" type="text" id="pkgdepth" placeholder="Depth"/>
                                                 </p>
                                             </div>
 
                                             <label class="label">Weight (g)</label>
                                             <p class="control">
-                                                <input class="input" type="text" name="weight" />
+                                                <input class="input" type="text" id="pkgweight" />
                                             </p>
                                         </div>
                                         <div class="column is-4">
                                             <label class="label">Cost</label>
                                             <p class="control">
-                                                <input class="input" disabled type="text" name="cost" />
+                                                <input class="input" disabled type="text" id="pkgcost" />
                                             </p>
-                                            <a class="button is-primary">Add</a>
-                                            <a class="button is-danger">Clear</a>
+                                            <p>Cost = (width + height + depth) x £0.10.</p>
+                                            <button class="button title is-4 is-primary" type="button" id="pkgadd">Add</button>
+                                            <button class="button title is-4 is-danger" type="button" id="pkgclear">Clear</button>
                                         </div>
                                     </div>
                                 </div> <!-- end of packages -->
@@ -95,8 +96,8 @@
                                     </span>
                                 </p>
 
-                                <label class="label">Total cost</label>
-                                <p class="subtitle is-2">£23.56</p>
+                                <label class="label">Total cost (£)</label>
+                                <input class="input subtitle is-2" name="cost" value="34.34" disabled="true"/>
 
                                 <div class="control is-grouped">
                                     <p class="control">
@@ -104,7 +105,7 @@
                                     </p>
 
                                     <p class="control">
-                                        <button class="button is-large is-link">Cancel</button>
+                                        <a class="button is-large is-link" href="/">Cancel</a>
                                     </p>
                                 </div>
                             </form>
@@ -113,5 +114,82 @@
                 </div>
             </div>
         </section>
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+        <script>
+
+        $.fn.reduce = [].reduce;
+
+        var clearPkg = function () {
+            $('input')
+                .filter(function () {
+                    return this.id.match(/^pkg/);
+                })
+                .each(function (i) {
+                    $(this).val("");
+                })
+        };
+
+        var updatePkgCost = function() {
+            var width = $('#pkgwidth').val()? parseInt($('#pkgwidth').val(),10) : 0;
+            var height = $('#pkgheight').val()? parseInt($('#pkgheight').val(),10) : 0;
+            var depth = $('#pkgdepth').val()? parseInt($('#pkgdepth').val(),10) : 0;
+
+            $('#pkgcost').val((Math.round((width + height + depth) * 10) / 100).toString());
+
+            return $('#pkgcost').val();
+        }
+
+        var pkgcount = 0;
+
+        $('#pkgwidth').change(updatePkgCost);
+        $('#pkgheight').change(updatePkgCost);
+        $('#pkgdepth').change(updatePkgCost);
+
+        var updateCost = function () {
+            return $('input')
+                .filter(function () {
+                    return ($(this).attr("name") && $(this).attr("name").match(/^packages\[\d+\]\[cost\]$/));
+                })
+                .map(function () {
+                    return $(this).val()? parseFloat($(this).val(), 10) : 0;
+                })
+                .reduce(function (a,b) {
+                    return a + (Math.round(b*100) / 100);
+                },0);
+        };
+
+        $('#pkgadd').click(function () {
+            var name = $('#pkgname').val();
+            var width = $('#pkgwidth').val();
+            var height = $('#pkgheight').val();
+            var depth = $('#pkgdepth').val();
+            var weight = $('#pkgweight').val();
+            var cost = $('#pkgcost').val();
+
+            $('#pkglist').append('<tr data-index="'+pkgcount+'">');
+                $('#pkglist tr[data-index="'+pkgcount+'"]').append("<td>"+name+"</td>");
+                $('#pkglist tr[data-index="'+pkgcount+'"]').append("<td>"+width+"</td>");
+                $('#pkglist tr[data-index="'+pkgcount+'"]').append("<td>"+height+"</td>");
+                $('#pkglist tr[data-index="'+pkgcount+'"]').append("<td>"+depth+"</td>");
+                $('#pkglist tr[data-index="'+pkgcount+'"]').append("<td>"+weight+"</td>");
+                $('#pkglist tr[data-index="'+pkgcount+'"]').append("<td>"+cost+"</td>");
+                $('#pkglist tr[data-index="'+pkgcount+'"]').append('<input type="hidden" name="packages['+pkgcount+'][name]" value="'+name+'" />');
+                $('#pkglist tr[data-index="'+pkgcount+'"]').append('<input type="hidden" name="packages['+pkgcount+'][width]" value="'+width+'" />');
+                $('#pkglist tr[data-index="'+pkgcount+'"]').append('<input type="hidden" name="packages['+pkgcount+'][height]" value="'+height+'" />');
+                $('#pkglist tr[data-index="'+pkgcount+'"]').append('<input type="hidden" name="packages['+pkgcount+'][depth]" value="'+depth+'" />');
+                $('#pkglist tr[data-index="'+pkgcount+'"]').append('<input type="hidden" name="packages['+pkgcount+'][weight]" value="'+weight+'" />');
+                $('#pkglist tr[data-index="'+pkgcount+'"]').append('<input type="hidden" name="packages['+pkgcount+'][cost]" value="'+cost+'" />');
+            $('#pkglist').append("</tr>");
+
+            pkgcount++;
+
+            clearPkg();
+        });
+
+        $('#pkgclear').click(clearPkg);
+        </script>
     </body>
 </html>
