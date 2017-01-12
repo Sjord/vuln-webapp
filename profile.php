@@ -10,8 +10,10 @@
     </head>
 
     <?php
-        $result = mysqli_query($db, "SELECT * FROM user");
+        $thingy = $_SESSION["email"];
+        $result = mysqli_query($db, "SELECT * FROM user WHERE email='$thingy'");
         $deets = mysqli_fetch_array($result);
+        $id = $deets["id"];
         include("includes/nav.php");
         if($_SERVER["REQUEST_METHOD"] == "POST")
         {
@@ -19,7 +21,6 @@
             $lastName = $_POST["lastName"];
             $email = $_POST["email"];
             $password = $_POST["password"];
-            $userName = $_POST["userName"];
             $privilege_level = $_POST["privilege_level"];
             if($db->connect_errno)
             {
@@ -27,12 +28,13 @@
             }
             else
             {
-                $db->query("INSERT into 'user' (firstname, lastname, email, password, username, privilege_level) VALUES ('$firstName', '$lastName', '$email', '$password', '$userName', '$privilege_level') ");
+                $db->query("UPDATE `user` SET (firstname = '$firstName', lastname = '$lastName', email='$email', password='$password', privilege_level='$privilege_level') WHERE id='$id'");
+                $_SESSION["email"] = $email;
             }
 
         }
 
-        if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) //check for username, may have to change it
+        if(isset($_SESSION["email"])) //check for username, may have to change it
         {
         ?>
 
@@ -69,11 +71,6 @@
                             </p>
                         </div>
                     </div>
-
-                    <p class="control">
-                        <input class="input"  name="userName" value="<?=$deets['username'];?>" placeholder="username">
-                    </p>
-
                     <p class="control">
                         <input class="input" type="hidden"  name="privilege_level"  placeholder="privilege level"> <!-- #privilegeescelation -->
                     </p>
