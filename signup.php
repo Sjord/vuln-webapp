@@ -1,7 +1,7 @@
 <?php
     session_start();
     // If the user is already logged in then redirect them to the home page because there's no need to sign up again
-    if (isset($_SESSION['username']))
+    if (isset($_SESSION['email']))
     {
         header("Location: index.php");
         // TODO: Add  exit(); here so that the page doesn't continue to load if the session is initialised
@@ -31,7 +31,7 @@
             // $query->close();
 
             // Why prepare statements when you can cripple horrendously?
-            $db->query("INSERT INTO `user` (email, password, privilege_level) VALUES('$email', '$passwd', 1)");
+            $db->query("INSERT INTO `user` (email, password, firstname, lastname, privilege_level) VALUES('$email', '$passwd', '$firstName', '$lastName', 1)");
             header("Location: login.php?created");
         }
     }
@@ -84,7 +84,4 @@
                 <button class="button is-success" type="submit">
                     Submit
                 </button>
-            </p> 
-
-
-
+            </p>
