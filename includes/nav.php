@@ -2,7 +2,9 @@
     <nav class="nav">
         <div class="nav-left">
             <div class="nav-item">
+            <a href="index.php">
                 <img src="assets/images/logo.png" alt="Planet Express Logo">
+            </a>
             </div>
         </div>
 
@@ -35,6 +37,12 @@
                     {
 
                     ?>
+                        <a class="button is-primary" href="dashboard.php">
+                            <span class="icon">
+                                <i class="fa fa-dashboard"></i>
+                            </span>
+                            <span>Dashboard</span>
+                        </a>
                         <a class="button is-primary" href="logout.php">
                             <span class="icon">
                                 <i class="fa fa-sign-out"></i>
