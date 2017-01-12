@@ -3,7 +3,7 @@
     session_start();
     if (isset($_SESSION['email']))
     {
-        header("Location: index.php");
+        header("Location: dashboard.php");
     }
 
     $db = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
@@ -22,9 +22,8 @@
             if ($result->num_rows > 0)
             {
                 $row = $result->fetch_array(MYSQLI_ASSOC);
-                $_SESSION['active'] = $row["active"];
                 $_SESSION["email"] = $row["email"];
-                header("Location: index.php");
+                header("Location: dashboard.php");
             }
             else
             {
