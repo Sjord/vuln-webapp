@@ -10,16 +10,36 @@
     </head>
 
     <?php
-        $result = mysqli_query($db, "SELECT * FROM user");
+        $thingy = $_SESSION["email"];
+        $result = mysqli_query($db, "SELECT * FROM user WHERE email='$thingy'");
         $deets = mysqli_fetch_array($result);
+        $id = $deets["id"];
+        $dfname = $deets["firstname"]; //data from the database
+        $dpword = $deets["password"];
+        $dlname = $deets["lastname"];  //data from the database
+        $dplevel = $deets["privilege_level"]; //data from the database
+
+        $_SESSION["id"] = $id;
+        $_SESSION["firstname"] = $dfname;
+        $_SESSION["lastname"] = $dlname;
+        $_SESSION["privilege_level"] = $dplevel;
+
         include("includes/nav.php");
         if($_SERVER["REQUEST_METHOD"] == "POST")
         {
             $firstName = $_POST["firstName"];
             $lastName = $_POST["lastName"];
             $email = $_POST["email"];
-            $password = $_POST["password"];
-            $userName = $_POST["userName"];
+            $password = ""; //initialise the password variable
+            if($password == "")
+            {
+                $password = $dpword;
+            }
+
+            else
+            {
+                $password = $_POST["password"];
+            }
             $privilege_level = $_POST["privilege_level"];
             if($db->connect_errno)
             {
@@ -27,12 +47,19 @@
             }
             else
             {
-                $db->query("INSERT into 'user' (firstname, lastname, email, password, username, privilege_level) VALUES ('$firstName', '$lastName', '$email', '$password', '$userName', '$privilege_level') ");
+                $db->query("UPDATE user SET firstname = '$firstName', lastname = '$lastName', email='$email', password='$password', privilege_level='$privilege_level' WHERE id='$id'");
+                $_SESSION["email"] = $email;
+                $_SERVER["firstname"] = $firstName;
+                $_SESSION["lastname"] = $lastName;
+                $_SESSION["privilege_level"] = $privilege_level;
+                $_SESSION["password"] = $password;
+                echo "data has been updated";
+                header("Location : index.php?data_updated");
             }
 
         }
 
-        if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) //check for username, may have to change it
+        if(isset($_SESSION["email"])) //check for username, may have to change it
         {
         ?>
 
@@ -69,11 +96,6 @@
                             </p>
                         </div>
                     </div>
-
-                    <p class="control">
-                        <input class="input"  name="userName" value="<?=$deets['username'];?>" placeholder="username">
-                    </p>
-
                     <p class="control">
                         <input class="input" type="hidden"  name="privilege_level"  placeholder="privilege level"> <!-- #privilegeescelation -->
                     </p>
