@@ -10,7 +10,7 @@
     if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['email']) && isset($_POST['password']))
     {
         $myemail = $_POST["email"];
-        $mypassword = $_POST["email"];
+        $mypassword = $_POST["password"];
 
         // Super super securely check the email and password even when there's spaces!!!!
         $sql = "SELECT * FROM user WHERE email = '$myemail' AND password = '$mypassword'";
