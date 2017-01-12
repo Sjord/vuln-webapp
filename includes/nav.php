@@ -38,6 +38,25 @@
                     </span>
                     <span>Login</span>
                 </a>
+                <?php
+                // Only show the log out button if the user's already logged in
+                if (session_status() == PHP_SESSION_NONE)
+                {
+                    session_start();
+                }
+                if (isset($_SESSION['username']))
+                {
+
+                ?>
+                    <a class="button is-primary" href="logout.php">
+                        <span class="icon">
+                            <i class="fa fa-sign-out"></i>
+                        </span>
+                        <span>Log Out</span>
+                    </a>
+                <?php
+                }
+                ?>
             </span>
         </div>
     </nav>
