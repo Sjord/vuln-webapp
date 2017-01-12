@@ -78,7 +78,7 @@
             </div>
 
             <p class="control">
-                <input class="input" type="hidden" placeholder="privilege_level">
+                <input class="input" type="hidden" placeholder="privilege_level" name="privilege_level">
             </p>
 
             <p class = "control">
