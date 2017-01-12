@@ -19,40 +19,45 @@
                 </p> 
             </div>
         </div>
-
+        
         <div class="nav-right nav-menu">
             <a class="nav-item" href="index.php">
                 Home
             </a>
-
             <span class="nav-item">
-                <a class="button" href="signup.php">
-                    <span class="icon">
-                        <i class="fa fa-user-plus"></i>
-                    </span>
-                    <span>Register</span>
-                </a>
-                <a class="button is-primary" href="login.php">
-                    <span class="icon">
-                        <i class="fa fa-sign-in"></i>
-                    </span>
-                    <span>Login</span>
-                </a>
                 <?php
-                // Only show the log out button if the user's already logged in
-                if (session_status() == PHP_SESSION_NONE)
-                {
-                    session_start();
-                }
-                if (isset($_SESSION['email']))
-                {
+                    // Only show the log out button if the user's already logged in
+                    if (session_status() == PHP_SESSION_NONE)
+                    {
+                        session_start();
+                    }
+                    if (isset($_SESSION['email']))
+                    {
 
-                ?>
-                    <a class="button is-primary" href="logout.php">
+                    ?>
+                        <a class="button is-primary" href="logout.php">
+                            <span class="icon">
+                                <i class="fa fa-sign-out"></i>
+                            </span>
+                            <span>Log Out</span>
+                        </a>
+                    <?php
+                    }
+                    else
+                    {
+                    ?>
+            
+                    <a class="button" href="signup.php">
                         <span class="icon">
-                            <i class="fa fa-sign-out"></i>
+                            <i class="fa fa-user-plus"></i>
                         </span>
-                        <span>Log Out</span>
+                        <span>Register</span>
+                    </a>
+                    <a class="button is-primary" href="login.php">
+                        <span class="icon">
+                            <i class="fa fa-sign-in"></i>
+                        </span>
+                        <span>Login</span>
                     </a>
                 <?php
                 }
