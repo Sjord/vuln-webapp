@@ -9,11 +9,11 @@
         <div class="nav-center">
             <div class="nav-item">
                 <p class="control has-addons has-icon">
-                  <input class="input is-expanded" placeholder="Enter tracking number">
+                  <input id="tracking-id-input" class="input is-expanded" placeholder="Enter tracking number">
                   <span class="icon is-small">
                     <i class="fa fa-search"></i>
                   </span>
-                    <a class="button" href="track.php">
+                    <a id="track-shipment" class="button">
                         <span>Track Delivery</span>
                     </a>
                 </p> 
@@ -42,3 +42,12 @@
         </div>
     </nav>
 </div>
+
+<script>
+document.getElementById("track-shipment").addEventListener("click", function() {
+    var tracking_id = document.getElementById("tracking-id-input").value;
+
+    window.location.href = ("tracking.php?id=" + tracking_id);
+});
+</script>
+

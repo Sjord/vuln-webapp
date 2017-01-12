@@ -13,7 +13,6 @@
     <body>
 <?php
     include("includes/nav.php");
-    include("config.php");
 
     if($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !isset($_GET["not_found"]))
     {
@@ -29,22 +28,24 @@
         if($result->num_rows > 0) 
         {
             // Here we want to set some vars to display 
-            $shipment_found = true;
         }
         else 
         {
-            $shipment_found = false;
             header("Location: tracking.php?id=$tracking_id&not_found");
         }
     }
+    elseif($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]))
+    {
+        $tracking_id = $_GET["id"];
+    }
     elseif($_SERVER["REQUEST_METHOD"] == "GET" && !isset($_GET["id"]) && !isset($_GET["invalid"])) 
     {
-            header("Location: tracking.php?invalid");
+        header("Location: tracking.php?invalid");
     }
 ?>
 
 <?php 
-        if($shipment_found == true) 
+        if(isset($_GET["id"]) && !isset($_GET["not_found"])) 
         {
 ?> 
        
@@ -61,17 +62,22 @@
         </div>
 <?php 
         }
-        elseif(isset($_GET["not_found"]))
+        elseif(isset($_GET["id"]) && isset($_GET["not_found"]))
         {
 ?>
         <div class="notification is-danger has-text-centered">
-            Shipment with ID <?php echo $tracking_id ?> not found!       
+            Shipment with ID <?=$tracking_id; ?> not found!       
         </div>
 <?php 
         }
         elseif(isset($_GET["invalid"]))
         {
+        http_response_code(404);
 ?>
+        <div class="container has-text-centered">
+        <h1 class="title is-1"><?=http_response_code(); ?></h1>
+        <h2 class="subtitle is-3">Oops, it seems something went wrong!</h2>
+        </div>
 <?php 
         } 
 ?>
