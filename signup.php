@@ -10,8 +10,8 @@
     require("config.php");
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
-        $firstName = $_POST["firstname"];
-        $lastName = $_POST["lastname"];
+        $firstName = $_POST["firstName"];
+        $lastName = $_POST["lastName"];
         $email = $_POST["email"];
         $passwd = $_POST["password"];
 
@@ -31,7 +31,7 @@
             // $query->close();
 
             // Why prepare statements when you can cripple horrendously?
-            $db->query("INSERT INTO `user` (email, password, privilege_level) VALUES('$email', '$passwd', 1)");
+            $db->query("INSERT INTO `user` (email, password, firstname, lastname, privilege_level) VALUES('$email', '$passwd', '$firstName', '$lastName', 1)");
             header("Location: login.php?created");
         }
     }
