@@ -32,8 +32,10 @@
             // $query->close();
 
             // Why prepare statements when you can cripple horrendously?
+
             $db->query("INSERT INTO `user` (email, password, firstname, lastname, privilege_level) VALUES('$email', '$passwd', '$firstName', '$lastName', '$privlevel')");
             header("Location: login.php?created");
+
         }
     }
 ?>
