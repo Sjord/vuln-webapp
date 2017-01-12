@@ -1,3 +1,76 @@
+<?php
+    session_start();
+    if (!isset($_SESSION['email'])) {
+        header("Location: login.php");
+        exit();
+    }
+
+    require('config.php');
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        // echo(print_r($_POST));
+        $description = $_POST['description'];
+        $packages = $_POST['packages'];
+        $shippingtype = $_POST['shippingtype'];
+        $cost = $_POST['cost'];
+        $destination = $_POST['destination'];
+        $email = $_SESSION['email'];
+
+        $db = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+        if ($db->connect_errno)
+        {
+            echo "Failed to connect to MySQL: (" . $mysqli->db. ") " . $mysqli->db;
+        }
+        else
+        {
+            // $query = $db->prepare("INSERT INTO `user` (email,password,privilege_level) VALUES (?,?,1)");
+            // $query->bind_param("ss", $email, $passwd);
+
+            // $query->execute();
+
+            // $query->close();
+            $result = $db->query("SELECT id FROM user WHERE email = '$email';");
+            if ($result) {
+                if ($result->num_rows > 0)
+                {
+                    $row = $result->fetch_array(MYSQLI_ASSOC);
+                    $id = $row["id"];
+                    // Why prepare statements when you can cripple horrendously?
+                    $db->query("INSERT INTO `shipment` (name, cost, destination, customer_id, date_dispatch) VALUES('$description', '$cost', '$destination', '$id', NOW())");
+                    $shipment_id = $db->insert_id;
+                    foreach ($packages as $pkg) {
+                        if ($pkg['cost'] === 0) {
+                            continue;
+                        }
+                        $query = <<<SQL
+                            INSERT INTO `package`
+                            (description, cost, width, height, depth, weight, shipment_id)
+                            VALUES (
+                                "{$pkg['name']}",
+                                "{$pkg['cost']}",
+                                "{$pkg['height']}",
+                                "{$pkg['width']}",
+                                "{$pkg['depth']}",
+                                "{$pkg['weight']}",
+                                '$shipment_id'
+                            );
+SQL;
+                        $db->query($query);
+                    }
+                    header("Location: index.php?created");
+                }
+                else
+                {
+                    header("Location: login.php?invalid");
+                }
+            }
+            else
+            {
+                header("Location: login.php?invalid");
+            }
+
+        }
+    }
+?>
 <!doctype html>
 <html>
     <head>
@@ -88,14 +161,22 @@
                                 <label class="label">Shipping Type</label>
                                 <p class="control">
                                     <span class="select">
-                                        <select>
-                                            <option>Default</option>
+                                        <select name="shippingtype">
+                                            <option value="5.00" selected="selected">Standard (+£5.00)</option>
+                                            <option value="8.00">Express (+£8.00)</option>
+                                            <option value="16.00">Same Day (+£16.00)</option>
                                         </select>
                                     </span>
                                 </p>
 
+                                <label class="label">Destination Address</label>
+                                <p class="control">
+                                    <input type="text" name="destination" class="input" />
+                                </p>
+
                                 <label class="label">Total cost (£)</label>
-                                <input class="input subtitle is-2" name="cost" value="00.00" disabled="true"/>
+                                <h1 class="subtitle is-2" id="costlabel">£5.00</h1>
+                                <input class="input subtitle is-2" name="cost" value="5.00" type="hidden"/>
 
                                 <div class="control is-grouped">
                                     <p class="control">
@@ -138,7 +219,7 @@
             var depth = $('#pkgdepth').val()? parseInt($('#pkgdepth').val(),10) : 0;
             var weight = $('#pkgweight').val()? parseInt($('#pkgweight').val(),10) : 5;
 
-            $('#pkgcost').val((Math.round((width + height + depth) * 0.005 * 100 + weight) / 100).toString());
+            $('#pkgcost').val((0.005 * (width + height + depth + weight)).toFixed(2).toString());
         }
 
         var pkgcount = 0;
@@ -168,8 +249,14 @@
                 .reduce(function (a,b) {
                     return a + (Math.round(b*100) / 100);
                 },0);
-            $('input[name="cost"]').val(cost);
+
+            cost += parseFloat($('select[name="shippingtype"]').val());
+
+            $('input[name="cost"]').val(cost.toFixed(2));
+            $('#costlabel').html("£" + cost.toFixed(2));
         };
+
+        $('select[name="shippingtype"]').change(updateCost);
 
         $('#pkgadd').click(function () {
             var name = $('#pkgname').val();
