@@ -1,23 +1,13 @@
 <?php
     session_start();
     // If the user is already logged in then redirect them to the home page because there's no need to sign up again
-    if (isset($_SESSION['username']))
+    if (isset($_SESSION['email']))
     {
         header("Location: index.php");
+        // TODO: Add  exit(); here so that the page doesn't continue to load if the session is initialised
     }
 
-    // TODO: Add  exit(); here so that the page doesn't continue to load if the session is initialised
-?>
-<!doctype html>
-<html>
-    <head>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.3.0/css/bulma.css" rel="stylesheet" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-    </head>
-
-    <?php
-    //include("/includes/nav.php");
-    include("config.php");
+    require("config.php");
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
         $firstName = $_POST["firstName"];
@@ -28,10 +18,12 @@
 
         //define $query depending on tables and databases matt adds
         $db = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
-        if ($db->connect_errno) {
+        if ($db->connect_errno)
+        {
             echo "Failed to connect to MySQL: (" . $mysqli->db. ") " . $mysqli->db;
         }
-        else {
+        else
+        {
             // $query = $db->prepare("INSERT INTO `user` (email,password,privilege_level) VALUES (?,?,1)");
             // $query->bind_param("ss", $email, $passwd);
 
@@ -40,13 +32,22 @@
             // $query->close();
 
             // Why prepare statements when you can cripple horrendously?
-            $db->query("INSERT INTO `user` (email, password, privilege_level) VALUES('$email', '$passwd', '$privlevel')");
-        }
 
+            $db->query("INSERT INTO `user` (email, password, firstname, lastname, privilege_level) VALUES('$email', '$passwd', '$firstName', '$lastName', '$privlevel')");
+            header("Location: login.php?created");
+
+        }
     }
-    ?>
+?>
+<!doctype html>
+<html>
+    <head>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.3.0/css/bulma.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    </head>
 
     <body>
+        <?php require("includes/nav.php"); ?>
         <h1 class="title is-one"> Planet Express </h1>
         <h3 class="title is-three"> Sign Up Here </h1>
         <form method="POST">
@@ -86,7 +87,4 @@
                 <button class="button is-success" type="submit">
                     Submit
                 </button>
-            </p> 
-
-
-
+            </p>

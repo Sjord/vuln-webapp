@@ -1,10 +1,3 @@
-<?php
-    session_start();
-    if (!isset($_SESSION['username']))
-    {
-        header("Location: login.php");
-    }
-?>
 <!doctype html>
 <html>
     <head>
@@ -14,18 +7,19 @@
 
     <body>
         <?php include("includes/nav.php") ?>
+                
 
         <section class="hero is-primary is-bold">
+            <div class="notification is-success has-text-centered">
+               <p>100th-delivery sale is now on, with shipments 30% off!
+                <a href="order.php">
+                    <span class="tag">
+                        <strong>Order Now</strong>
+                    </span>
+                </a> 
+                </p>
+            </div>
             <div class="container">
-                <div class="notification is-success has-text-centered">
-                   <p>100th-delivery sale is now on, with shipments 30% off!
-                    <a href="order.php">
-                        <span class="tag">
-                            <strong>Order Now</strong>
-                        </span>
-                    </a> 
-                    </p>
-                </div>
             </div>
             <div class="hero-body">
                 <div class="container">

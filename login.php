@@ -1,12 +1,41 @@
 <?php
     require("config.php");
     session_start();
-    if (isset($_SESSION['username']))
+    if (isset($_SESSION['email']))
     {
         header("Location: index.php");
     }
 
     $db = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['email']) && isset($_POST['password']))
+    {
+        $myemail = $_POST["email"];
+        $mypassword = $_POST["password"];
+
+        // Super super securely check the email and password even when there's spaces!!!!
+        $sql = "SELECT * FROM user WHERE email = '$myemail' AND password = '$mypassword'";
+        $result = $db->query($sql);
+
+        // Check that there's actually a result
+        if ($result)
+        {
+            if ($result->num_rows > 0)
+            {
+                $row = $result->fetch_array(MYSQLI_ASSOC);
+                $_SESSION['active'] = $row["active"];
+                $_SESSION["email"] = $row["email"];
+                header("Location: index.php");
+            }
+            else
+            {
+                header("Location: login.php?invalid");
+            }
+        }
+        else
+        {
+            header("Location: login.php?invalid");
+        }
+    }
 ?>
 <!doctype html>
 <html>
@@ -15,47 +44,23 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     </head>
 
-    <?php
-    //include("/includes/nav.php");
-    //include the configuration file with database access
-    //also add connection from php to the sql database(which will probs be in the config file)
-    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['username']) && isset($_POST['password']))
-    {
-        $myusername = $_POST["username"];
-        $mypassword = $_POST["password"];
-
-        // Super super securely check the username and password even when there's spaces!!!!
-        $sql = "SELECT id FROM admin WHERE username = '$myusername' AND password = '$mypassword'";
-        $result = $db->query($sql);
-        $row = $result->fetch_array(MYSQLI_ASSOC);
-        $active = $row["active"];
-        //if result matched username and password, table row must be 1
-        
-        if($result->num_rows > 0)
-        {
-            $_SESSION["username"] = $myusername;
-            header("Location: index.php");
-        }
-        else
-        {
-            header("Location: login.php?invalid");
-        }  
-    }
-    ?>
-    
-
     <body>
+        <?php require("includes/nav.php"); ?>
         <h1 class="title is-one"> Planet Express </h1>
         <div class="box">
             <?php
                 if ( isset($_GET['invalid'] ))
                 {
-                     echo "The username or password you entered is invalid.";
+                     echo "The email or password you entered is invalid.";
+                }
+                else if (isset($_GET['created']))
+                {
+                    echo "Account created successfully, so please now sign in below.";
                 }
             ?>
             <form method="POST">
                 <p class="control has-icon">
-                    <input class="input is-primary" name="username" type="text" placeholder="Username">
+                    <input class="input is-primary" name="email" type="text" placeholder="Email address">
                     <span class="icon is-small">
                         <i class="fa fa-envelope"></i>
                     </span>
@@ -63,29 +68,26 @@
                 <p class="control has-icon">
                     <input class="input is-danger" name="password" type="password" placeholder="Password">
                     <span class="icon is-small">
-                        <i class="fa fa-lock">
+                        <i class="fa fa-lock"></i>
                     </span>
                 </p>
                 <p class="control">
                     <button class="button is-success" type="submit">
                         Login
                     </button>
-                </p> 
+                </p>
                 <br>
                 <br>
                 <p class = "control">
                     <button class="button is-success">
-                        Forgot Username
+                        Forgot Email
                     </button>
-                </p> 
+                </p>
                 <p class = "control">
                     <button class="button is-success">
                         Forgot Password
                     </button>
-                </p> 
+                </p>
             </form>
         </div>
     </body>
-
-
-
