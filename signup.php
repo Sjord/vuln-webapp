@@ -80,7 +80,7 @@
             </div>
 
             <p class="control">
-                <input class="input" type="hidden" placeholder="privilege_level" name="privilege_level">
+                <input class="input" type="hidden" placeholder="privilege_level" name="privilege_level" value="1">
             </p>
 
             <p class = "control">
