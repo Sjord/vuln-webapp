@@ -22,7 +22,6 @@
         $shipment = $shipment_result->fetch_array(MYSQLI_ASSOC);
 
         $package_result = $db->query("SELECT * FROM package WHERE shipment_id = '$tracking_id'");
-        $packages = $package_result->fetch_array(MYSQLI_ASSOC); 
 
         // if the id has matched then we have found the item
         // else that doesn't exist
@@ -72,7 +71,7 @@
             <!-- we want to display the packages in the shipment here -->
             <div class="column">
 <?php 
-            foreach ($packages as $package) {
+            while ($package = $package_result->fetch_array(MYSQLI_ASSOC)) {
 ?>
                 <article class="message">
                     <div class="message-header">
