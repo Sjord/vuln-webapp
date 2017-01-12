@@ -27,7 +27,7 @@
                     <h1 class="title">We'll need a few details first.</h1>
                     <div class="columns">
                         <div class="column is-8 is-offset-2">
-                            <form>
+                            <form method="post">
                                 <label class="label">Description</label>
                                 <p class="control">
                                     <input class="input" type="text" name="description" />
@@ -35,7 +35,7 @@
 
                                 <label class="label">Packages</label>
                                 <div class="box">
-                                    <table class="table">
+                                    <table class="table" id="pkgtable">
                                         <thead>
                                             <th>Name</th>
                                             <th>Width (cm)</th>
@@ -47,9 +47,7 @@
                                         <tbody id="pkglist">
                                         </tbody>
                                     </table>
-                                    <div id="nopackageswarning" class="notification">
-                                        This shipment currently has no packages!
-                                    </div>
+                                    <div id="nopackageswarning" class="notification">This shipment currently has no packages!</div>
 
                                     <div class="columns">
                                         <div class="column is-8">
@@ -78,9 +76,9 @@
                                         <div class="column is-4">
                                             <label class="label">Cost</label>
                                             <p class="control">
-                                                <input class="input" disabled type="text" id="pkgcost" />
+                                                <input class="input" disabled type="text" id="pkgcost" value="00.00"/>
                                             </p>
-                                            <p>Cost = (width + height + depth) x £0.10.</p>
+                                            <p>Cost = (width + height + depth) x £0.005 x weight.</p>
                                             <button class="button title is-4 is-primary" type="button" id="pkgadd">Add</button>
                                             <button class="button title is-4 is-danger" type="button" id="pkgclear">Clear</button>
                                         </div>
@@ -97,7 +95,7 @@
                                 </p>
 
                                 <label class="label">Total cost (£)</label>
-                                <input class="input subtitle is-2" name="cost" value="34.34" disabled="true"/>
+                                <input class="input subtitle is-2" name="cost" value="00.00" disabled="true"/>
 
                                 <div class="control is-grouped">
                                     <p class="control">
@@ -122,6 +120,8 @@
 
         $.fn.reduce = [].reduce;
 
+        var nopackageswarning = '<div id="nopackageswarning" class="notification">This shipment currently has no packages!</div>';
+
         var clearPkg = function () {
             $('input')
                 .filter(function () {
@@ -136,20 +136,29 @@
             var width = $('#pkgwidth').val()? parseInt($('#pkgwidth').val(),10) : 0;
             var height = $('#pkgheight').val()? parseInt($('#pkgheight').val(),10) : 0;
             var depth = $('#pkgdepth').val()? parseInt($('#pkgdepth').val(),10) : 0;
+            var weight = $('#pkgweight').val()? parseInt($('#pkgweight').val(),10) : 5;
 
-            $('#pkgcost').val((Math.round((width + height + depth) * 10) / 100).toString());
-
-            return $('#pkgcost').val();
+            $('#pkgcost').val((Math.round((width + height + depth) * 0.005 * 100 + weight) / 100).toString());
         }
 
         var pkgcount = 0;
 
-        $('#pkgwidth').change(updatePkgCost);
-        $('#pkgheight').change(updatePkgCost);
-        $('#pkgdepth').change(updatePkgCost);
+        $('#pkgwidth').keyup(updatePkgCost);
+        $('#pkgheight').keyup(updatePkgCost);
+        $('#pkgdepth').keyup(updatePkgCost);
+        $('#pkgweight').keyup(updatePkgCost);
+
+        var updatePkgs = function () {
+            if (pkgcount >= 0) {
+                $('#nopackageswarning').remove();
+            }
+            else if (!$('#nopackageswarning').length) {
+                $('#pkgtable').append(nopackageswarning);
+            }
+        };
 
         var updateCost = function () {
-            return $('input')
+            var cost = $('input')
                 .filter(function () {
                     return ($(this).attr("name") && $(this).attr("name").match(/^packages\[\d+\]\[cost\]$/));
                 })
@@ -159,6 +168,7 @@
                 .reduce(function (a,b) {
                     return a + (Math.round(b*100) / 100);
                 },0);
+            $('input[name="cost"]').val(cost);
         };
 
         $('#pkgadd').click(function () {
@@ -187,6 +197,8 @@
             pkgcount++;
 
             clearPkg();
+            updatePkgs();
+            updateCost();
         });
 
         $('#pkgclear').click(clearPkg);
