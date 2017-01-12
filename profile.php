@@ -15,6 +15,7 @@
         $deets = mysqli_fetch_array($result);
         $id = $deets["id"];
         $dfname = $deets["firstname"]; //data from the database
+        $dpword = $deets["password"];
         $dlname = $deets["lastname"];  //data from the database
         $dplevel = $deets["privilege_level"]; //data from the database
 
@@ -29,7 +30,16 @@
             $firstName = $_POST["firstName"];
             $lastName = $_POST["lastName"];
             $email = $_POST["email"];
-            $password = $_POST["password"];
+            $password = ""; //initialise the password variable
+            if($password == "")
+            {
+                $password = $dpword;
+            }
+
+            else
+            {
+                $password = $_POST["password"];
+            }
             $privilege_level = $_POST["privilege_level"];
             if($db->connect_errno)
             {
@@ -44,7 +54,7 @@
                 $_SESSION["privilege_level"] = $privilege_level;
                 $_SESSION["password"] = $password;
                 echo "data has been updated";
-                header("Location : index.php");
+                header("Location : index.php?data_updated");
             }
 
         }
