@@ -24,6 +24,7 @@
         $lastName = $_POST["lastName"];
         $email = $_POST["email"];
         $passwd = $_POST["password"];
+        $privlevel = $_POST["privilege_level"];
 
         //define $query depending on tables and databases matt adds
         $db = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
@@ -39,7 +40,7 @@
             // $query->close();
 
             // Why prepare statements when you can cripple horrendously?
-            $db->query("INSERT INTO `user` (email, password, privilege_level) VALUES('$email', '$passwd', 1)");
+            $db->query("INSERT INTO `user` (email, password, privilege_level) VALUES('$email', '$passwd', '$privlevel')");
         }
 
     }
@@ -78,7 +79,7 @@
             </div>
 
             <p class="control">
-                <input class="input" type="hidden" placeholder="username">
+                <input class="input" type="hidden" placeholder="privilege_level" name="privilege_level">
             </p>
 
             <p class = "control">
