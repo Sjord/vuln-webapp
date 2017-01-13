@@ -90,6 +90,7 @@ SQL;
                     <h1 class="title is-1">
                         Request A Delivery
                     </h1>
+                    <h2 class="subtitle">We'll need a few details first.</h2>
                 </div>
             </div>
         </section>
@@ -97,99 +98,94 @@ SQL;
         <section class="section">
             <div class="container">
                 <div class="content">
-                    <h1 class="title">We'll need a few details first.</h1>
-                    <div class="columns">
-                        <div class="column is-8 is-offset-2">
-                            <form method="post">
-                                <label class="label">Description</label>
-                                <p class="control">
-                                    <input class="input" type="text" name="description" />
-                                </p>
+                    <form method="post">
+                        <label class="label">Description</label>
+                        <p class="control">
+                            <input class="input" type="text" name="description" />
+                        </p>
 
-                                <label class="label">Packages</label>
-                                <div class="box">
-                                    <table class="table" id="pkgtable">
-                                        <thead>
-                                            <th>Name</th>
-                                            <th>Width (cm)</th>
-                                            <th>Height (cm)</th>
-                                            <th>Depth (cm)</th>
-                                            <th>Weight (g)</th>
-                                            <th>Cost (£)</th>
-                                        </thead>
-                                        <tbody id="pkglist">
-                                        </tbody>
-                                    </table>
-                                    <div id="nopackageswarning" class="notification">This shipment currently has no packages!</div>
+                        <label class="label">Packages</label>
+                        <div class="box">
+                            <table class="table" id="pkgtable">
+                                <thead>
+                                    <th>Name</th>
+                                    <th>Width (cm)</th>
+                                    <th>Height (cm)</th>
+                                    <th>Depth (cm)</th>
+                                    <th>Weight (g)</th>
+                                    <th>Cost (£)</th>
+                                </thead>
+                                <tbody id="pkglist">
+                                </tbody>
+                            </table>
+                            <div id="nopackageswarning" class="notification">This shipment currently has no packages!</div>
 
-                                    <div class="columns">
-                                        <div class="column is-8">
-                                            <label class="label">Name</label>
-                                            <p class="control">
-                                                <input class="input" type="text" id="pkgname" />
-                                            </p>
-                                            <label class="label">Width, Height, Depth (cm)</label>
-                                            <div class="control is-grouped">
-                                                <p class="control is-expanded">
-                                                    <input class="input" type="text" id="pkgwidth" placeholder="Width"/>
-                                                </p>
-                                                <p class="control is-expanded">
-                                                    <input class="input" type="text" id="pkgheight" placeholder="Height"/>
-                                                </p>
-                                                <p class="control is-expanded">
-                                                    <input class="input" type="text" id="pkgdepth" placeholder="Depth"/>
-                                                </p>
-                                            </div>
-
-                                            <label class="label">Weight (g)</label>
-                                            <p class="control">
-                                                <input class="input" type="text" id="pkgweight" />
-                                            </p>
-                                        </div>
-                                        <div class="column is-4">
-                                            <label class="label">Cost</label>
-                                            <p class="control">
-                                                <input class="input" disabled type="text" id="pkgcost" value="00.00"/>
-                                            </p>
-                                            <p>Cost = (width + height + depth) x £0.005 x weight.</p>
-                                            <button class="button title is-4 is-primary" type="button" id="pkgadd">Add</button>
-                                            <button class="button title is-4 is-danger" type="button" id="pkgclear">Clear</button>
-                                        </div>
-                                    </div>
-                                </div> <!-- end of packages -->
-
-                                <label class="label">Shipping Type</label>
-                                <p class="control">
-                                    <span class="select">
-                                        <select name="shippingtype">
-                                            <option value="5.00" selected="selected">Standard (+£5.00)</option>
-                                            <option value="8.00">Express (+£8.00)</option>
-                                            <option value="16.00">Same Day (+£16.00)</option>
-                                        </select>
-                                    </span>
-                                </p>
-
-                                <label class="label">Destination Address</label>
-                                <p class="control">
-                                    <input type="text" name="destination" class="input" />
-                                </p>
-
-                                <label class="label">Total cost (£)</label>
-                                <h1 class="subtitle is-2" id="costlabel">£5.00</h1>
-                                <input class="input subtitle is-2" name="cost" value="5.00" type="hidden"/>
-
-                                <div class="control is-grouped">
+                            <div class="columns">
+                                <div class="column is-8">
+                                    <label class="label">Name</label>
                                     <p class="control">
-                                        <button class="button is-large is-primary">Submit</button>
+                                        <input class="input" type="text" id="pkgname" />
                                     </p>
+                                    <label class="label">Width, Height, Depth (cm)</label>
+                                    <div class="control is-grouped">
+                                        <p class="control is-expanded">
+                                            <input class="input" type="text" id="pkgwidth" placeholder="Width"/>
+                                        </p>
+                                        <p class="control is-expanded">
+                                            <input class="input" type="text" id="pkgheight" placeholder="Height"/>
+                                        </p>
+                                        <p class="control is-expanded">
+                                            <input class="input" type="text" id="pkgdepth" placeholder="Depth"/>
+                                        </p>
+                                    </div>
 
+                                    <label class="label">Weight (g)</label>
                                     <p class="control">
-                                        <a class="button is-large is-link" href="/">Cancel</a>
+                                        <input class="input" type="text" id="pkgweight" />
                                     </p>
                                 </div>
-                            </form>
+                                <div class="column is-4">
+                                    <label class="label">Cost</label>
+                                    <p class="control">
+                                        <input class="input" disabled type="text" id="pkgcost" value="00.00"/>
+                                    </p>
+                                    <p>Cost = (width + height + depth) x £0.005 x weight.</p>
+                                    <button class="button title is-4 is-primary" type="button" id="pkgadd">Add</button>
+                                    <button class="button title is-4 is-danger" type="button" id="pkgclear">Clear</button>
+                                </div>
+                            </div>
+                        </div> <!-- end of packages -->
+
+                        <label class="label">Shipping Type</label>
+                        <p class="control">
+                            <span class="select">
+                                <select name="shippingtype">
+                                    <option value="5.00" selected="selected">Standard (+£5.00)</option>
+                                    <option value="8.00">Express (+£8.00)</option>
+                                    <option value="16.00">Same Day (+£16.00)</option>
+                                </select>
+                            </span>
+                        </p>
+
+                        <label class="label">Destination Address</label>
+                        <p class="control">
+                            <input type="text" name="destination" class="input" />
+                        </p>
+
+                        <label class="label">Total cost (£)</label>
+                        <h1 class="subtitle is-2" id="costlabel">£5.00</h1>
+                        <input class="input subtitle is-2" name="cost" value="5.00" type="hidden"/>
+
+                        <div class="control is-grouped">
+                            <p class="control">
+                                <button class="button is-large is-primary">Submit</button>
+                            </p>
+
+                            <p class="control">
+                                <a class="button is-large is-link" href="/">Cancel</a>
+                            </p>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </section>

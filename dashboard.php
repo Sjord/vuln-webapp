@@ -1,4 +1,4 @@
-<?php 
+<?php
     require("config.php");
     session_start();
     if (!isset($_SESSION["email"]))
@@ -7,8 +7,8 @@
     }
 
     $db = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
-    
-    if(isset($_SESSION["email"])) 
+
+    if(isset($_SESSION["email"]))
     {
         $myemail = $_SESSION["email"];
 
@@ -29,29 +29,29 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     </head>
     <body>
-<?php 
-    include("includes/nav.php"); 
+<?php
+    include("includes/nav.php");
 
-    // Admin dashboard 
+    // Admin dashboard
     //
     //
-    if($myprivilege == 2) 
+    if($myprivilege == 2)
     {
 ?>
         <section class="hero is-success is-bold">
 		</div>
-<?php 
-    } 
-    // User dashboard 
+<?php
+    }
+    // User dashboard
     //
     //
-    elseif ($myprivilege == 1) 
+    elseif ($myprivilege == 1)
     {
 ?>
         <section class="hero is-info is-bold">
-<?php 
-    } 
-    else 
+<?php
+    }
+    else
     {
         unset($_SESSION["email"]);
         header("Location: login.php?not_logged_in");
@@ -68,8 +68,8 @@
                 </div>
             </div>
         </section>
-<?php 
-	if($myprivilege == 2) 
+<?php
+	if($myprivilege == 2)
 	{
 ?>
 	<section class="section">
@@ -99,10 +99,10 @@
 
 					</div>
 				  </div>
-				</div> 
+				</div>
 				<br>
 				<div class="block">
-					<a class="button is-success">
+					<a class="button is-success" href="/order.php">
 						<span class="icon is-small">
 							<i class="fa fa-rocket"></i>
 						</span>
@@ -131,48 +131,48 @@
 						<th><abbr title="First Name">Name</abbr></th>
 						<th><abbr title="Last Name">Surname</abbr></th>
 						<th><abbr title="Privilege Level">Type</abbr></th>
-						<th></th>	
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 <?php
         if(isset($_GET["id"]) && isset($_GET["disable"]) && !isset($_GET["enable"]))
         {
-            $disable_user_id = $_GET["id"]; 
+            $disable_user_id = $_GET["id"];
             $db->query("UPDATE user SET privilege_level=0 WHERE id='$disable_user_id'");
         }
         elseif(isset($_GET["id"]) && !isset($_GET["disable"]) && isset($_GET["enable"]))
         {
-            $enable_user_id = $_GET["id"]; 
+            $enable_user_id = $_GET["id"];
             $db->query("UPDATE user SET privilege_level=1 WHERE id='$enable_user_id'");
         }
 
         $user_result = $db->query("SELECT * FROM user");
-		while ($user = $user_result->fetch_array(MYSQLI_ASSOC)) 
+		while ($user = $user_result->fetch_array(MYSQLI_ASSOC))
 		{
 ?>
 				<tr>
 					<th><?=$user["id"]; ?></th>
-					<td><?=$user["firstname"]; ?></td>	
-                    <td><?=$user["lastname"]; ?></td>	
-<?php 
+					<td><?=$user["firstname"]; ?></td>
+                    <td><?=$user["lastname"]; ?></td>
+<?php
             if($user["privilege_level"] == 1)
             {
 ?>
 					<th>User</th>
-<?php 
+<?php
             }
             elseif($user["privilege_level"] == 2)
             {
 ?>
                     <th>Admin</th>
-<?php 
+<?php
             }
-            else 
+            else
             {
 ?>
                     <th class="is-danger">Disabled</thead>
-<?php 
+<?php
             }
 ?>
                     <th>
@@ -182,8 +182,8 @@
 							<i class="fa fa-cube"></i>
 						</span>
                         <span>View Shipments</span>
-                        </a> 
-<?php 
+                        </a>
+<?php
             if($user["privilege_level"] == 1)
             {
 ?>
@@ -192,7 +192,7 @@
 							<i class="fa fa-ban"></i>
 						</span>
                         <span>Disable</span>
-                        </a> 
+                        </a>
 <?php
             }
             elseif($user["privilege_level"] == 2)
@@ -203,10 +203,10 @@
 							<i class="fa fa-ban"></i>
 						</span>
                         <span>Disable</span>
-                        </a> 
-<?php 
+                        </a>
+<?php
             }
-            else 
+            else
             {
 ?>
                         <a class="button is-success" href="dashboard.php?id=<?=$user["id"]; ?>&enable">
@@ -214,7 +214,7 @@
 							<i class="fa fa-plus-circle"></i>
 						</span>
                         <span>Enable</span>
-                        </a> 
+                        </a>
 <?php
             }
 ?>
@@ -231,7 +231,7 @@
 <?php
         if(isset($_GET["id"]))
         {
-            $shipment_user_id = $_GET["id"]; 
+            $shipment_user_id = $_GET["id"];
             $user_result = $db->query("SELECT * FROM user WHERE id='$shipment_user_id'");
             $viewed_user = $user_result->fetch_array(MYSQLI_ASSOC);
             $shipment_user_name = $viewed_user["firstname"];
@@ -240,7 +240,7 @@
         <h1 class="title"><?=$shipment_user_name; ?> <?=$shipment_user_surname; ?>'s Shipments</h1>
 <?php
         }
-        else 
+        else
         {
             $shipment_user_id = $myid;
 ?>
@@ -253,18 +253,18 @@
 					<tr>
 						<th><abbr title="Shipment ID">ID</abbr></th>
 						<th><abbr title="Shipment Name">Name</abbr></th>
-						<th></th>	
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 <?php
         $shipment_result = $db->query("SELECT * FROM shipment WHERE customer_id = '$shipment_user_id'");
-		while ($shipment = $shipment_result->fetch_array(MYSQLI_ASSOC)) 
+		while ($shipment = $shipment_result->fetch_array(MYSQLI_ASSOC))
 		{
 ?>
 				<tr>
 					<th><?=$shipment["id"]; ?></th>
-					<td><?=$shipment["name"]; ?></td>	
+					<td><?=$shipment["name"]; ?></td>
                     <th><a class="button is-info" href="tracking.php?id=<?=$shipment["id"]; ?>">
 						<span class="icon is-small">
 							<i class="fa fa-space-shuttle"></i>
@@ -278,7 +278,7 @@
 			</div>
 		</div>
 	</section>
-<?php 
+<?php
 	}
 	else
 	{
@@ -310,10 +310,10 @@
 
 					</div>
 				  </div>
-				</div> 
+				</div>
 				<br>
 				<div class="block">
-					<a class="button is-success">
+					<a class="button is-success" href="/order.php">
 						<span class="icon is-small">
 							<i class="fa fa-rocket"></i>
 						</span>
@@ -334,18 +334,18 @@
 					<tr>
 						<th><abbr title="Shipment ID">ID</abbr></th>
 						<th><abbr title="Shipment Name">Name</abbr></th>
-						<th></th>	
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 <?php
         $shipment_result = $db->query("SELECT * FROM shipment WHERE customer_id = '$myid'");
-		while ($shipment = $shipment_result->fetch_array(MYSQLI_ASSOC)) 
+		while ($shipment = $shipment_result->fetch_array(MYSQLI_ASSOC))
 		{
 ?>
 				<tr>
 					<th><?=$shipment["id"]; ?></th>
-					<td><?=$shipment["name"]; ?></td>	
+					<td><?=$shipment["name"]; ?></td>
                     <th><a class="button is-info" href="tracking.php?id=<?=$shipment["id"]; ?>">
 						<span class="icon is-small">
 							<i class="fa fa-space-shuttle"></i>
@@ -361,7 +361,7 @@
 		  </div>
 		</div>
 </section>
-<?php 
+<?php
 	}
 ?>
     </body>
