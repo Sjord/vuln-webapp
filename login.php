@@ -1,9 +1,13 @@
 <?php
     require("config.php");
+    $redirect_to = $_GET["redirect_to"];
+    if (!isset($_GET["redirect_to"])) {
+        $redirect_to = "dashboard.php";
+    }
     session_start();
     if (isset($_SESSION['email']))
     {
-        header("Location: dashboard.php");
+        header("Location: " . $redirect_to);
     }
 
     $db = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
@@ -11,6 +15,7 @@
     {
         $myemail = $_POST["email"];
         $mypassword = $_POST["password"];
+
 
         // Super super securely check the email and password even when there's spaces!!!!
         $sql = "SELECT * FROM user WHERE email = '$myemail' AND password = '$mypassword'";
@@ -23,7 +28,7 @@
             {
                 $row = $result->fetch_array(MYSQLI_ASSOC);
                 $_SESSION["email"] = $row["email"];
-                header("Location: dashboard.php");
+                header("Location: " . $redirect_to);
             }
             else
             {
